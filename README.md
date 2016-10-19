@@ -5,8 +5,9 @@ In this challenge we're going to explore user registration and authentication.  
 
 
 ### Working with Sessions
-In the vanilla world of HTTP, our web applications don't recognize when two requests come from the same browser; they treat each request the same way.  In this challenge, we'll learn to use [sessions][] in Sinatra, which store
-data using [HTTP cookies][].  We use cookies to retain state across web requests—in this challenge, we'll use them so that our application recognizes that a user is logged in.
+HTTP is a [stateless protocol][], meaning that each request-response cycle is independent of all other requests and responses.  Servers don't remember which clients made which requests or to whom they've sent which responses.  But, we know that if we log into a website, the application knows that we're logged in.  In other words, our logged-in state is preserved across multiple requests.  How does this happen?
+
+In this challenge, we'll learn to track whether or not a user is logged in using [sessions][] in Sinatra, which store data using HTTP cookies.  [Cookies][HTTP cookies] are used to retain state across web requests.  Cookies are passed back-and-forth between client and server in HTTP headers.  The server sets a cookie and sends it to the client as part of the response.  Then with its next request, the client sends the cookie back to the server.  In this manner, we're able to manage state across multiple request-response cycles.
 
 
 ### Protecting User Data
@@ -85,3 +86,4 @@ Think about the apps we use everyday:  Twitter, Instagram, GitHub, etc.  User re
 [HTTP cookies]: http://en.wikipedia.org/wiki/HTTP_cookie
 [using sessions]: http://www.sinatrarb.com/intro#Using%20Sessions
 [before filter]: http://www.sinatrarb.com/intro#Filters
+[stateless protocol]: https://en.wikipedia.org/wiki/Stateless_protocol
