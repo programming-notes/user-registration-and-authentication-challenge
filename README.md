@@ -51,15 +51,13 @@ hashed_password == "password"
 
 ## Releases
 ### Release 0:  Implement User Registration
-The first feature that we're going to add to our application is user registration; when users visit our site, they should be able to create accounts.
-
-Users will need to provide us with some information.  We'll keep things simple and only require some basics:
+The first feature that we'll build out is user registration.  When users visit our site, they should be able to create new accounts by submitting some basic information:
 
 - full name
-- email address
+- e-mail address
 - password
 
-When a user registers with our site, we'll need to persist the information that they provide to us in our database (i.e., save the new user in the database).  What data should we keep in our database?  How should we store it?  Remember, we should not store a user's plain-text password.  What constraints should we have in our database and validations in our models?  What would happen if two users registered with the same e-mail address?  Or, if a user did not supply an e-mail address?
+When users register with our site, we'll need to persist the information they provided in the database (i.e., save the new user).  What data should we store?  How should we store it?  Remember, we should not store a user's plain-text password.  What constraints should we have in our database? What validations on our models?  What would happen if two users registered with the same e-mail address?  Or, if a user did not supply an e-mail address?
 
 *Note:*  When users later return to our site and attempt to login, they will submit an email address and password.
 
