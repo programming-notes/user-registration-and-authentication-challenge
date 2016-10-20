@@ -63,7 +63,9 @@ When users register with our site, we'll need to persist the information they pr
 
 
 ### Release 1:  Implement User Login
-When users register for our site, we'll want them to be able to later return to our site and login using the details that they provided when registering—specifically, the e-mail address and password.  How will our application determine whether or not the user supplied a correct e-mail and password combination?
+If users register with our site, they'll need to be able to log into their accounts.  Specifically, we'll ask users to log in with their e-mail addresses and passwords.  How will our application determine whether or not the user supplied a correct e-mail and password combination?  Where should that responsibility live?
+
+We'll give that responsibility to the `User` model by defining an `.authenticate` class method.  The method will accept two arguments—an e-mail address and a password—and attempt to find a user with those credentials.  We'll need to implement this method ourselves, but Figure 4 provides some shell code and pseudocode.
 
 ```ruby
 class User < ActiveRecord::Base
@@ -76,11 +78,8 @@ end
 ```
 *Figure 4*.  Shell code for an authenticate method.
 
-We'll add an `.authenticate` method to our `User` model to make this determination.  Figure 4 provides some shell code and pseudocode for our method.
 
-Now, let's actually implement logging in by allowing users to submit their login credentials as a post request to a `/login` URL.  If the user sends a valid email and password combination, we'll log the user in.  We'll "remember" that the user is logged in by storing data in the `session` hash.
-
-If the `session` hash and/or how to use it is unclear, read the [using sessions section][using sessions] of the Sinatra documentation.  If it is still unclear after reading the documentation, ask for help from a staff member.
+Once our authenticate method is working, let's add the log-in feature to our application.  Users should submit their login credentials in a POST request to a `/login` URL.  If the user sends a valid email and password combination, we'll log the user in.  We'll "remember" that the user is logged in by storing data in the `session` hash.  Read the [using sessions section][using sessions] of the Sinatra documentation, if working with the `ssession` hash is unclear.  If it is still unclear after reading the documentation, ask for help from a staff member.
 
 
 ### Release 2:  Implement Logging Out
