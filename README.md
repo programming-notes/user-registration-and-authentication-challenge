@@ -28,7 +28,7 @@ hashed_password = BCrypt::Password.create("password")
 
 Saving the hashed password in the database means that we can avoid storing plain-text passwords.  But if all we save is the hashed password, when a user logs in, how do we check the password submitted in the log-in form?  
 
-We ask if the plain-text password is the same as the string originally used to created the hashed password.  How do we determine that?  The hashed password is made up of two parts:  the first part is the *salt* and the second part is the *checksum* (see Figure 2).  When we compare a hashed password to a plain-text string, we take the string and the salt from the hashed password, we given them both to the hashing algorithm, and we see whether the algorithm produces the same hashed password.  All of this is provided for us in the [`BCrypt::Password`][bcrypt password] class, and we can use the [`#==`][bcrypt password equality] method to ask a `BCrypt::Password` if it was made from a given string (see Figure 3).
+We ask if the plain-text password is the same as the string originally used to created the hashed password.  How do we determine that?  The hashed password is made up of two parts:  the first part is the *salt* and the second part is the *checksum* (see Figure 2).  When we compare a hashed password to a plain-text string, we take the string and the salt from the hashed password, we given them both to the hashing algorithm, and we see whether the algorithm produces the same hashed password.  All of this is provided for us in the [`BCrypt::Password`][bcrypt password] class, and we can use the [`#==`][bcrypt password equality] method to ask an instance of `BCrypt::Password` if it was made from a given string (see Figure 3).
 
 ```ruby
 hashed_password
