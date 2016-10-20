@@ -89,7 +89,7 @@ If users can log in, they'll also need to log out.  So, let's build a log out fe
 ### Release 3:  Implement Authorization
 To this point, we've been dealing with *authentication*:  answering the question, "Who are you?"  Now we're going to handle *authorization*:  answering the question, "What do you have permission to do?"
 
-In applications there are different use cases for authorization.  For example, an application might have a group of administrators with special privileges.  Perhaps they can edit content, delete posts, etc., while other users cannot.  In our application, we'll authorize all logged in users to view the content of our site.  If users have not logged in, they will not be authorized to view the content.
+In applications there are different use cases for authorization.  For example, an application might have a group of administrators with special privileges:  editing content, deleting posts, etc.  In our application, we'll authorize all logged-in users to view the content of our site.  If users have not logged in, they will not be authorized to view the content.
 
 What is our content?  We're practicing authorization, so let's just create a "secret" page.  Users should be authorized to see the secret page only if they're logged in.  If users try to access the secret page when they're not logged in, they should be redirected to the login page.
 
