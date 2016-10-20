@@ -10,10 +10,43 @@ HTTP is a [stateless protocol][], meaning that each request-response cycle is in
 In this challenge, we'll learn to track whether or not a user is logged in using [sessions][] in Sinatra, which store data using HTTP cookies.  [Cookies][HTTP cookies] are used to retain state across web requests.  Cookies are passed back-and-forth between client and server in HTTP headers.  The server sets a cookie and sends it to the client as part of the response.  Then with its next request, the client sends the cookie back to the server.  In this manner, we're able to manage state across multiple request-response cycles.
 
 
-### Protecting User Data
-When users sign up to use our application, they will be trusting us with their data:  names, e-mail addresses, passwords.  We want to do everything we can to protect our users in case our database is compromised.  We should never store a user's plain-text password in our database.
+### Protecting User Data with BCrypt
+When users register with our application, they trust us with their data:  names, e-mail addresses, passwords, etc.  We must do everything we can to protect our users in case our database is compromised.  To that end, we should never store a user's plain-text password in our database.
 
-How do we securely store users' passwords while allowing users to sign in with their plain-text passwords?  One option is to use a [hashing algorithm](https://en.wikipedia.org/wiki/Cryptographic_hash_function) and store the hashed versions of users' passwords in our database.  One such hashing algorithm is [bcrypt](https://en.wikipedia.org/wiki/Bcrypt), for which there is a [Ruby gem](https://github.com/codahale/bcrypt-ruby).
+But that does raise a problem.  Users register for our site with an e-mail address and a password.  We can't save that password.  But, when users return to the site and log in, we have to check that they enter the correct password.  How do we do that?
+
+Instead of storing the password itself, we can store a transformed version of it.  One option is to run the password through a [hashing algorithm](https://en.wikipedia.org/wiki/Cryptographic_hash_function) and then store the hashed version in our database.  One such hashing algorithm is [bcrypt](https://en.wikipedia.org/wiki/Bcrypt), for which there is a [Ruby gem](https://github.com/codahale/bcrypt-ruby).  Figure 1 shows an example of using the gem to create a hashed version of a string.
+
+```ruby
+require 'bcrypt'
+
+hashed_password = BCrypt::Password.create("password")
+# => "$2a$10$KncjtgHorSeQcQyzOQjKVOWS6/nhjGo8vuvbb4H54QyuC41c10DQ6"
+```  
+*Figure 1*.  Using the BCrypt gem to hash a password.
+
+
+Saving the hashed password in the database means that we can avoid storing plain-text passwords.  But if all we save is the hashed password, when a user logs in, how do we check the password submitted in the log-in form?  
+
+We ask if the plain-text password is the same as the string originally used to created the hashed password.  How do we determine that?  The hashed password is made up of two parts:  the first part is the *salt* and the second part is the *checksum* (see Figure 2).  When we compare a hashed password to a plain-text string, we take the string and the salt from the hashed password, we given them both to the hashing algorithm, and we see whether the algorithm produces the same hashed password.  All of this is provided for us in the [`BCrypt::Password`][bcrypt password] class, and we can use the [`#==`][bcrypt password equality] method to ask a `BCrypt::Password` if it was made from a given string (see Figure 3).
+
+```ruby
+hashed_password
+# => "$2a$10$KncjtgHorSeQcQyzOQjKVOWS6/nhjGo8vuvbb4H54QyuC41c10DQ6"
+hashed_password.salt
+# => "$2a$10$KncjtgHorSeQcQyzOQjKVO"
+hashed_password.checksum
+# => "WS6/nhjGo8vuvbb4H54QyuC41c10DQ6"
+```
+*Figure 2*.  Accessing a `BCrypt::Password` object's salt and checksum values.
+
+```ruby
+hashed_password == "my secret"
+# => false
+hashed_password == "password"
+# => true
+```  
+*Figure 3*.  Determining whether a hashed password was made from a particular string.
 
 
 ### Application Description
@@ -55,9 +88,9 @@ class User < ActiveRecord::Base
   end
 end
 ```
-*Figure 1*.  Shell code for an authenticate method.
+*Figure 4*.  Shell code for an authenticate method.
 
-We'll add an `.authenticate` method to our `User` model to make this determination.  Figure 1 provides some shell code and pseudocode for our method.
+We'll add an `.authenticate` method to our `User` model to make this determination.  Figure 4 provides some shell code and pseudocode for our method.
 
 Now, let's actually implement logging in by allowing users to submit their login credentials as a post request to a `/login` URL.  If the user sends a valid email and password combination, we'll log the user in.  We'll "remember" that the user is logged in by storing data in the `session` hash.
 
@@ -81,7 +114,8 @@ One way to restrict access to authorized users is a [before filter][].  This not
 ## Conclusion
 Think about the apps we use everyday:  Twitter, Instagram, GitHub, etc.  User registration, authentication, and authorization are key aspects in these applications.  These are skills that we must have.  We've gotten an introduction to these concepts in this challenge.  Moving forward at Dev Bootcamp we'll receive more practice with them as we'll continue building user authentication into our applications.
 
-
+[bcrypt password]: https://github.com/codahale/bcrypt-ruby/blob/master/lib/bcrypt/password.rb
+[bcrypt password equality]: https://github.com/codahale/bcrypt-ruby/blob/master/lib/bcrypt/password.rb#L65
 [sessions]: http://www.sinatrarb.com/faq.html#sessions
 [HTTP cookies]: http://en.wikipedia.org/wiki/HTTP_cookie
 [using sessions]: http://www.sinatrarb.com/intro#Using%20Sessions
