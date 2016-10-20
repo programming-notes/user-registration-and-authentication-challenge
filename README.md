@@ -107,5 +107,5 @@ Think about the apps we use everyday:  Twitter, Instagram, GitHub, etc.  User re
 [HTTP cookies]: http://en.wikipedia.org/wiki/HTTP_cookie
 [using sessions]: http://www.sinatrarb.com/intro#Using%20Sessions
 [before filter]: http://www.sinatrarb.com/intro#Filters
-[rational numbers]: ../../../../the-rational-numbers-challenge
+[rational numbers]: ../../../the-rational-numbers-challenge
 [stateless protocol]: https://en.wikipedia.org/wiki/Stateless_protocol
