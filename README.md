@@ -83,7 +83,7 @@ Once our authenticate method is working, let's add the log-in feature to our app
 
 
 ### Release 2:  Implement Logging Out
-If users can login, we'll also want to allow them to logout.  Implement a controller method that will log a user out when they visit it.  This will most likely involve deleting some content from the `session` hash.
+If users can log in, they'll also need to log out.  So, let's build a log out feature.  Add a route to the application that allows users to log out.  What does the route handler need to do to log the user out?  How did we track that a user was logged in?  What would we need to change for the user to not be logged in?  Could we delete some content from the `session` hash?
 
 
 ### Release 3:  Implement Authorization
