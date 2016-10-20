@@ -49,18 +49,6 @@ hashed_password == "password"
 *Figure 3*.  Determining whether a hashed password was made from a particular string.
 
 
-### Application Description
-Our application will have only one model: `User`.  We'll work with our user model to build an application that supports a few core actions:
-
-- User registration (i.e., creating an account)
-- Login
-- Logout
-
-Once this functionality is built, we'll begin to restrict access to our application to logged in users.  In other words, when a user attempts to see a page in our application, they will be redirected to the login page, unless they have already been logged in.
-
-As we build our application, we'll need to make decisions about the routes that we need and the types of requests the browser should make (e.g., get, post, etc.).
-
-
 ## Releases
 ### Release 0:  Implement User Registration
 The first feature that we're going to add to our application is user registration; when users visit our site, they should be able to create accounts.
