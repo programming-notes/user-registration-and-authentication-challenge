@@ -5,9 +5,11 @@ In this challenge we're going to explore user registration and authentication.  
 
 
 ### Working with Sessions
-HTTP is a [stateless protocol][], meaning that each request-response cycle is independent of all other requests and responses.  Servers don't remember which clients made which requests or to whom they've sent which responses.  But, we know that if we log into a website, the application knows that we're logged in.  In other words, our logged-in state is preserved across multiple requests.  How does this happen?
-
-In this challenge, we'll learn to track whether or not a user is logged in using [sessions][] in Sinatra, which store data using HTTP cookies.  [Cookies][HTTP cookies] are used to retain state across web requests.  Cookies are passed back-and-forth between client and server in HTTP headers.  The server sets a cookie and sends it to the client as part of the response.  Then with its next request, the client sends the cookie back to the server.  In this manner, we're able to manage state across multiple request-response cycles.
+HTTP is a [stateless protocol][], meaning that HTTP servers "forget" everything they know about a client between each request-response cycle.  Servers don't remember which clients made which requests or to whom they've sent which responses.  
+ 
+But, we know that if we log into a website, the application continues to remember that we're logged in as we visit various pages on the site.  In other words, our logged-in state is preserved across multiple requests.  How does this happen?
+ 
+In this challenge, we'll learn to track whether or not a user is logged in using [sessions][] in Sinatra. Sessions contain data from the server that is encrypted and stored in HTTP cookies.  Since cookies are sent back and forth between browser and server, the session cookie is always available to us in Sinatra.
 
 
 ### Protecting User Data with BCrypt
@@ -104,7 +106,6 @@ Think about the apps we use everyday:  Twitter, Instagram, GitHub, etc.  User re
 [bcrypt password]: https://github.com/codahale/bcrypt-ruby/blob/master/lib/bcrypt/password.rb
 [bcrypt password equality]: https://github.com/codahale/bcrypt-ruby/blob/master/lib/bcrypt/password.rb#L65
 [sessions]: http://www.sinatrarb.com/faq.html#sessions
-[HTTP cookies]: http://en.wikipedia.org/wiki/HTTP_cookie
 [using sessions]: http://www.sinatrarb.com/intro#Using%20Sessions
 [before filter]: http://www.sinatrarb.com/intro#Filters
 [rational numbers]: ../../../the-rational-numbers-challenge
