@@ -28,9 +28,9 @@ hashed_password = BCrypt::Password.create("password")
 *Figure 1*.  Using the BCrypt gem to hash a password.
 
 
-Saving the hashed password in the database means that we can avoid storing plain-text passwords.  But if all we save is the hashed password, when a user logs in, how do we check the password submitted in the log-in form?  
+Saving the hashed password in the database means that we can avoid storing plain-text passwords.  But if all we save is the hashed password, how do we check whether the user logs in with the correct plain-text password?  We check whether that plain-text password is the same as the string originally used to create the hashed password.  
 
-We ask if the plain-text password is the same as the string originally used to create the hashed password.  How do we determine that?  The hashed password is made up of two parts:  the first part is the *salt* and the second part is the *checksum* (see Figure 2).  When we compare a hashed password to a plain-text string, we take the string and the salt from the hashed password, we given them both to the hashing algorithm, and we see whether the algorithm produces the same hashed password.  All of this is provided for us in the [`BCrypt::Password`][bcrypt password] class, and we can use the [`#==`][bcrypt password equality] method to ask an instance of `BCrypt::Password` if it was made from a given string (see Figure 3).
+The hashed password is made up of two parts:  the first part is the *salt* and the second part is the *checksum* (see Figure 2).  The bcrypt hashing algorithm used that salt to transform the original plain-text password into the checksum.  To check whether a user logs in with the correct plain-text password, we give the hashing algorithm both the salt from the already hashed password and the plain-text log-in password, and we see whether the algorithm produces the same result.  The [`#==`][bcrypt password equality] method in the [`BCrypt::Password`][bcrypt password] class will perform this check for us, determing whether a hashed password was made from a given string (see Figure 3).
 
 ```ruby
 hashed_password
@@ -41,6 +41,8 @@ hashed_password.checksum
 # => "WS6/nhjGo8vuvbb4H54QyuC41c10DQ6"
 ```
 *Figure 2*.  Accessing a `BCrypt::Password` object's salt and checksum values.
+
+<br>
 
 ```ruby
 hashed_password == "my secret"
